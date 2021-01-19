@@ -50,7 +50,7 @@ signals.pre_save.connect(dynamictemplate_pre_save, sender=DynamicTemplate)
 
 # Signal that creates the 'view_*' permission
 from django.db.models import get_models
-from django.contrib.auth.management import _get_permission_codename
+from django.contrib.auth.management import get_permission_codename
 
 def _get_all_permissions(opts):
     """Copied from django.contrib.auth.management._get_all_permissions
