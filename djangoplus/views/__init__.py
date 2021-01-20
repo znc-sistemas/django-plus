@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.utils import simplejson
+import json
 from django.views.decorators.cache import never_cache
 
 @never_cache
@@ -12,5 +12,5 @@ def json_list_view(request, queryset, desc_field, id_field, extra_args=False):
 
     ret = q.values(id_field, desc_field)
 
-    return HttpResponse(simplejson.dumps([x for x in ret]), mimetype='text/javascript')
+    return HttpResponse(json.dumps([x for x in ret]), mimetype='text/javascript')
 

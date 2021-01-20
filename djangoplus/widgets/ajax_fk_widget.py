@@ -4,7 +4,7 @@ import operator
 from django.forms.widgets import TextInput
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from django.utils import simplejson
+import json
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.http import HttpResponse
@@ -155,7 +155,7 @@ class AjaxFKWidget(TextInput):
 
         script = """<script type="text/javascript">fk_widgets['%s'] = %s;%s</script>"""%(
                 name,
-                simplejson.dumps(sc_params),
+                json.dumps(sc_params),
                 self.get_additional_script(name)
                 )
 
@@ -377,5 +377,5 @@ def load_view(request, app, model):
 
     ret = driver.get_by_pk()
 
-    return HttpResponse(simplejson.dumps(ret), mimetype='text/javascript')
+    return HttpResponse(json.dumps(ret), mimetype='text/javascript')
 
