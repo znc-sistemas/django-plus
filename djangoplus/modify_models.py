@@ -65,7 +65,7 @@ import types
 
 from django.db import models
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import get_model
+from django.apps import apps
 from django.db.models.fields import FieldDoesNotExist
 
 class ModifiedModelMetaclass(type):
@@ -82,7 +82,7 @@ class ModifiedModelMetaclass(type):
 
         # Find model class for this helper
         if isinstance(getattr(meta, 'model', None), basestring):
-            model_class = get_model(*meta.model.split('.'))
+            model_class = apps.get_model(*meta.model.split('.'))
         elif issubclass(getattr(meta, 'model', None), models.Model):
             model_class = meta.model
         else:

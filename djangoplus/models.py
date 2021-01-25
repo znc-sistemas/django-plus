@@ -49,7 +49,7 @@ def dynamictemplate_pre_save(sender, instance, signal, *args, **kwargs):
 signals.pre_save.connect(dynamictemplate_pre_save, sender=DynamicTemplate)
 
 # Signal that creates the 'view_*' permission
-from django.db.models import get_models
+from django.apps import apps
 from django.contrib.auth.management import get_permission_codename
 
 def _get_all_permissions(opts):
@@ -66,7 +66,7 @@ def create_permissions(app, created_models, verbosity, **kwargs):
 
     from django.contrib.contenttypes.models import ContentType
     from django.contrib.auth.models import Permission
-    app_models = get_models(app)
+    app_models = apps.get_models(app)
     if not app_models:
         return
     for klass in app_models:
@@ -77,7 +77,7 @@ def create_permissions(app, created_models, verbosity, **kwargs):
             if created and verbosity >= 2:
                 print "Adding permission '%s'" % p    
 
-signals.post_syncdb.connect(create_permissions,
+signals.post_migrate.connect(create_permissions,
     dispatch_uid = "djangoplus.models.create_permissions")
 
 class TranslatedFieldManager(models.Manager):

@@ -3,6 +3,7 @@ from optparse import make_option
 from django.core.management import BaseCommand
 from django.conf import settings
 from django.db import connection, transaction, models
+from django.apps import apps
 
 def get_auto_fields(model):
     return [f for f in model._meta.fields if isinstance(f, models.AutoField)]
@@ -29,7 +30,7 @@ class Command(BaseCommand):
         commands = []
         for app in models.get_apps():
             app_name = app.__name__.split('.')[-2]
-            model_list = models.get_models(app)
+            model_list = apps.get_models(app)
             
             for model in model_list:
                 fields = get_auto_fields(model)
